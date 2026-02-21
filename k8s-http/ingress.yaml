@@ -1,32 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-namespace: 3-tier-ns
   name: myingress
+  namespace: 3-tier-ns
 spec:
   ingressClassName: nginx
   rules:
-  - host: api.localtest.me
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-svc
-            port:
-              number: 80
-      - path: /api
+    - host: api.localtest.me
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: backend-svc
+                name: frontend-svc
                 port:
-                  number: 3000
-          - path: /health
-            pathType: Exact
-            backend:
-              service:
-                name: backend-svc
-                port:
-                  number: 3000 
+                  number: 80
