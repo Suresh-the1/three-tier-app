@@ -3,25 +3,20 @@ kind: Service
 metadata:
   name: mongo
   namespace: 3-tier-ns
-  labels:
-    app: mongo
 spec:
+  ports:
+    - port: 27017
   clusterIP: None
   selector:
     app: mongo
-  ports:
-    - port: 27017
-      targetPort: 27017
-
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongo
-  namespace: 3-tier-ns
 spec:
   serviceName: mongo
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: mongo
@@ -33,11 +28,6 @@ spec:
       containers:
         - name: mongo
           image: mongo:7
-          command:
-            - mongod
-            - "--replSet"
-            - "rs0"
-            - "--bind_ip_all"
           ports:
             - containerPort: 27017
           volumeMounts:
